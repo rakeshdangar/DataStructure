@@ -1,0 +1,116 @@
+Longest Substring with At Most K Distinct Characters
+
+
+Problem Statement
+
+Given a string s and an integer k, return the length of the longest substring that contains at most k distinct characters.
+
+Example 1:
+Input: s = "eceba", k = 2
+Output: 3
+Explanation: The substring is “ece”.
+
+Example 2:
+Input: s = "aa", k = 1
+Output: 2
+
+
+
+Solution Explanation
+
+This is again a Sliding Window problem:
+
+	• Use a Dictionary to track character counts inside the window.
+	• Expand the window (end) by including more characters.
+	• If the number of distinct characters exceeds k, shrink the window (start) by moving it to the right until there are at most k distinct characters.
+
+using System;
+using System.Collections.Generic;
+
+public class LongestSubstringKDistinct
+{
+    public static int LengthOfLongestSubstringKDistinct(string s, int k)
+    {
+        if (k == 0 || s.Length == 0) return 0;
+
+        // Dictionary to store character counts
+        Dictionary<char, int> charCount = new Dictionary<char, int>();
+
+        int maxLength = 0;
+        int start = 0; // Start pointer of window
+
+        for (int end = 0; end < s.Length; end++)
+        {
+            char endChar = s[end];
+
+            // Add current character to dictionary or update its count
+            if (charCount.ContainsKey(endChar))
+                charCount[endChar]++;
+            else
+                charCount[endChar] = 1;
+
+            // If there are more than k distinct characters
+            while (charCount.Count > k)
+            {
+                char startChar = s[start];
+                charCount[startChar]--;
+
+                // If count becomes 0, remove the character
+                if (charCount[startChar] == 0)
+                    charCount.Remove(startChar);
+
+                start++; // Shrink the window
+            }
+
+            // Update the maximum length
+            maxLength = Math.Max(maxLength, end - start + 1);
+        }
+
+        return maxLength;
+    }
+
+    // Main function to test the code
+    public static void Main(string[] args)
+    {
+        Console.WriteLine(LengthOfLongestSubstringKDistinct("eceba", 2)); // Output: 3
+        Console.WriteLine(LengthOfLongestSubstringKDistinct("aa", 1));    // Output: 2
+        Console.WriteLine(LengthOfLongestSubstringKDistinct("a", 1));     // Output: 1
+        Console.WriteLine(LengthOfLongestSubstringKDistinct("abcadcacacaca", 3)); // Output: 11
+        Console.WriteLine(LengthOfLongestSubstringKDistinct("", 2));      // Output: 0
+        Console.WriteLine(LengthOfLongestSubstringKDistinct("abaccc", 2)); // Output: 4
+    }
+}
+
+
+Test Cases
+Input	k	Expected Output	Explanation
+"eceba"	2	3	“ece”
+"aa"	1	2	“aa”
+"a"	1	1	“a”
+"abcadcacacaca"	3	11	“cadcacacaca”
+""	2	0	Empty string
+"abaccc"	2	4	“accc”
+
+
+Choice of Data Structure
+
+	• Dictionary<char, int>:
+		○ Tracks frequency of each character.
+		○ Helps determine when distinct character count exceeds k.
+	• Alternative:
+		○ Ordered Dictionary (LinkedHashMap equivalent in Java) if you need to know the oldest inserted character.
+		○ But for C#, a regular Dictionary + managing start pointer is sufficient.
+
+
+Data Structure	Pros	Cons
+Dictionary	O(1) operations for add/update/remove	May use slightly more memory for storing counts
+
+
+
+Time and Space Complexity
+
+	• Time Complexity: O(n)
+		○ Each character is processed at most twice (once added, once removed).
+	• Space Complexity: O(k)
+		○ At most k distinct characters in the dictionary at any time.
+
