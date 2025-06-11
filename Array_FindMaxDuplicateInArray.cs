@@ -17,7 +17,6 @@ namespace ConsoleApplication1
 
         public int FindDuplicate(int[] a)
         {
-            int ret =0;
             Dictionary<int, int> dict = new Dictionary<int, int>();
             for (int i=0; i<a.Length; i++)
             {
@@ -25,16 +24,13 @@ namespace ConsoleApplication1
                 {
                     ++dict[a[i]];
                     if (a.Length / 2 <= dict[a[i]])
-                    {
-                        ret = a[i];
-                        break;
-                    }
+                        return a[i]; //Count of duplicates is already bigger than rest of the numbers
                 }
                 else
                     dict.Add(a[i], 1);
             }
            
-            return ret;
+            return dict.OrderByDescending(pair => pair.Value).FirstOrDefault().Key;
         }
     }
 }
