@@ -1,4 +1,4 @@
-Longest Substring with At Most K Distinct Characters
+/*Longest Substring with At Most K Distinct Characters
 
 
 Problem Statement
@@ -23,6 +23,7 @@ This is again a Sliding Window problem:
 	• Use a Dictionary to track character counts inside the window.
 	• Expand the window (end) by including more characters.
 	• If the number of distinct characters exceeds k, shrink the window (start) by moving it to the right until there are at most k distinct characters.
+*/
 
 using System;
 using System.Collections.Generic;
@@ -82,7 +83,7 @@ public class LongestSubstringKDistinct
 }
 
 
-Test Cases
+/* Test Cases
 Input	k	Expected Output	Explanation
 "eceba"	2	3	“ece”
 "aa"	1	2	“aa”
@@ -114,3 +115,4 @@ Time and Space Complexity
 	• Space Complexity: O(k)
 		○ At most k distinct characters in the dictionary at any time.
 
+*/
