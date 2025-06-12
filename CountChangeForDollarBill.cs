@@ -64,25 +64,25 @@ namespace ConsoleApplication1
         }
 
         //Iteratively: Fast O(n*k) with O(n) memory space
-        private int count(List<int> s, int n )
+        private int count(List<int> stringCoins, int amountInCents)
         {
           //std::vector<int> table(n+1,0);
             List<int> table = new List<int>();
-            for (int i = 0; i <= n; i++)
+            for (int i = 0; i <= amountInCents; i++)
             {
                 table.Add(0);
             }
 
             table[0] = 1;
-            foreach (int k in s)
+            foreach (int coin in stringCoins)
             {
-                for (int j = k; j <= n; ++j)
+                for (int j = coin; j <= amountInCents; ++j)
                 {
-                    table[j] += table[j - k];
+                    table[j] += table[j - coin];
                 }
             }
 
-            return table[n];
+            return table[amountInCents];
         }
     }
 }
